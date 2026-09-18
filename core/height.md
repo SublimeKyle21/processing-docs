@@ -1,29 +1,27 @@
 # `height`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Environment  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-height()
+int height
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+A built-in read-only variable containing the height of the sketch canvas in pixels, as set by `size()` or `fullScreen()`. Mirrors `width` in every respect — see `width` for full details.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_System variable — not a function._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`int` — canvas height in pixels
 
 ---
 
@@ -31,38 +29,24 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+| All | Logical pixel height — see `pixelHeight` for the physical height on HiDPI displays |
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Same as [`width`](width.md): do not read before `size()`, do not reassign, and distinguish from `pixelHeight` on retina displays.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
 void setup() {
-  size(400, 400);
-}
-
-void draw() {
-  // height() usage here
+  size(600, 400);
+  background(20);
+  // Vertical center line
+  line(0, height / 2, width, height / 2);
 }
 ```
 
@@ -70,8 +54,11 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`width`](width.md)
+- [`size()`](size.md)
+- [`pixelDensity()`](pixelDensity.md)
+- [`displayHeight`](displayHeight.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

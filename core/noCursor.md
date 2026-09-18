@@ -1,29 +1,27 @@
-# `noCursor`
+# `noCursor()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Environment  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-noCursor()
+void noCursor()
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Hides the mouse cursor within the sketch window. The cursor disappears as soon as it enters the canvas area and reappears when it leaves. Commonly used in fullscreen installations, games, or when drawing a custom cursor with `image()` or `ellipse()` at `mouseX, mouseY`.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_None._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`void`
 
 ---
 
@@ -31,38 +29,34 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+| All | Uniform — hides the OS cursor over the canvas |
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- The OS cursor reappears as soon as it leaves the sketch window — expected behavior but can look odd on partial-screen sketches.
+- If you hide the cursor and draw a custom one, don't forget to call `noCursor()` every frame or at least once in `setup()` — moving the window sometimes restores the cursor on some platforms.
+- In kiosk/fullscreen mode, users cannot move the cursor off the canvas, so `noCursor()` makes the cursor permanently invisible — ensure the sketch provides enough visual feedback for mouse position.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
 void setup() {
-  size(400, 400);
+  size(600, 400, P2D);
+  noCursor();
 }
 
 void draw() {
-  // noCursor() usage here
+  background(20);
+  // Draw custom cursor
+  fill(255, 200, 0);
+  noStroke();
+  ellipse(mouseX, mouseY, 20, 20);
+  fill(255, 0, 0);
+  ellipse(mouseX, mouseY, 6, 6);
 }
 ```
 
@@ -70,8 +64,8 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`cursor()`](cursor.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

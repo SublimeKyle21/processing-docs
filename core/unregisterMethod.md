@@ -1,68 +1,76 @@
-# `unregisterMethod`
+# `unregisterMethod()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Library API  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-unregisterMethod()
+void unregisterMethod(String methodName, Object target)
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Removes a previously registered lifecycle hook from the Processing event system. Call this when a library object is no longer needed, to stop its callbacks from firing and to allow it to be garbage collected.
 
 ## Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+| `methodName` | `String` | — | Hook name matching the original `registerMethod()` call |
+| `target` | `Object` | — | The same object instance that was registered |
 
 ## Returns
 
-`void` — _Update if this function returns a value._
-
----
-
-## Renderer Differences
-
-| Renderer | Behavior |
-|----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+`void`
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Calling `unregisterMethod()` with a `target` that was never registered is a no-op — no error is thrown.
+- Forgetting to unregister objects before discarding them keeps them alive in the Processing callback list (memory leak) and continues calling their methods unnecessarily.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
+class Particle {
+  PApplet p;
+  boolean alive = true;
+
+  Particle(PApplet p) {
+    this.p = p;
+    p.registerMethod("draw", this);
+  }
+
+  void draw() {
+    if (!alive) {
+      p.unregisterMethod("draw", this);
+      return;
+    }
+    p.ellipse(p.random(p.width), p.random(p.height), 5, 5);
+  }
+
+  void kill() { alive = false; }
+}
+
+Particle pt;
+
 void setup() {
   size(400, 400);
+  pt = new Particle(this);
 }
 
 void draw() {
-  // unregisterMethod() usage here
+  background(20);
+}
+
+void mousePressed() {
+  pt.kill();   // stops drawing and unregisters itself
 }
 ```
 
@@ -70,8 +78,9 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`registerMethod()`](registerMethod.md)
+- [`exit()`](exit.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

@@ -1,29 +1,29 @@
-# `loop`
+# `loop()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Lifecycle  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-loop()
+void loop()
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Resumes continuous execution of `draw()` after it has been stopped by `noLoop()`. If `draw()` is already running, calling `loop()` has no effect.
+
+`loop()` is commonly called inside event handlers (`mousePressed()`, `keyPressed()`) to restart animation in response to user input.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_None._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`void`
 
 ---
 
@@ -31,38 +31,47 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
+| All | Uniform behavior across renderers |
 
 ---
 
 ## Implementation Notes
 
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+- Internally sets a boolean flag that the animation thread checks at the end of each `draw()` cycle.
+- Calling `loop()` does not immediately trigger a new `draw()` call — it re-enables the loop so the next scheduled frame proceeds.
+- Safe to call from event handlers and `thread()` callbacks.
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Calling `loop()` before `setup()` finishes has no meaningful effect — the loop hasn't started yet.
+- If `noLoop()` was called and no user interaction triggers `loop()` again, the sketch becomes permanently static (until `redraw()` is called manually).
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
+boolean running = false;
+
 void setup() {
   size(400, 400);
+  noLoop();   // start paused
 }
 
 void draw() {
-  // loop() usage here
+  background(50);
+  ellipse(frameCount % width, height / 2, 40, 40);
+}
+
+void mousePressed() {
+  if (running) {
+    noLoop();
+  } else {
+    loop();
+  }
+  running = !running;
 }
 ```
 
@@ -70,8 +79,11 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`noLoop()`](noLoop.md)
+- [`redraw()`](redraw.md)
+- [`draw()`](draw.md)
+- [`frameRate()`](frameRate.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

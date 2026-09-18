@@ -1,68 +1,46 @@
-# `popStyle`
+# `popStyle()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Style Stack  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-popStyle()
+void popStyle()
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Restores the style settings previously saved with `pushStyle()`. Must be balanced with a preceding `pushStyle()` call. Equivalent to the style-restore half of `pop()`.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_None._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
-
----
-
-## Renderer Differences
-
-| Renderer | Behavior |
-|----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
-
----
-
-## Pitfalls
-
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+`void`
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
-void setup() {
-  size(400, 400);
-}
-
 void draw() {
-  // popStyle() usage here
+  background(30);
+  stroke(255);
+  strokeWeight(1);
+
+  pushStyle();
+    stroke(255, 0, 0);
+    strokeWeight(4);
+    line(0, height/2, width, height/2);
+  popStyle();
+
+  // Stroke is back to white, weight 1
+  line(0, height/3, width, height/3);
 }
 ```
 
@@ -70,8 +48,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`pushStyle()`](pushStyle.md)
+- [`push()`](push.md)
+- [`pop()`](pop.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

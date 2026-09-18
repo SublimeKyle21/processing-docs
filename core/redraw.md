@@ -1,29 +1,27 @@
-# `redraw`
+# `redraw()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Lifecycle  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-redraw()
+void redraw()
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Executes `draw()` exactly once. Only meaningful when the loop has been stopped with `noLoop()`. `redraw()` is the standard way to trigger a single repaint in event-driven or on-demand sketches.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_None._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`void`
 
 ---
 
@@ -31,38 +29,43 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
+| All | Uniform — triggers one `draw()` cycle |
 
 ---
 
 ## Implementation Notes
 
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+- If the loop is running (`loop()` state), calling `redraw()` has no additional effect — `draw()` is already being called continuously.
+- Safe to call from event handlers, `thread()` callbacks, and Swing listeners.
+- `frameCount` increments by 1 per `redraw()` call.
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Calling `redraw()` from within `draw()` itself creates an infinite synchronous call stack — never do this.
+- Multiple rapid `redraw()` calls from an event handler do not queue multiple frames; they collapse into however many the animation thread can service.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
+int col = 0;
+
 void setup() {
   size(400, 400);
+  noLoop();
+  background(col);
 }
 
 void draw() {
-  // redraw() usage here
+  background(col);
+}
+
+void keyPressed() {
+  col = (col + 20) % 256;
+  redraw();   // repaint with new background color
 }
 ```
 
@@ -70,8 +73,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`noLoop()`](noLoop.md)
+- [`loop()`](loop.md)
+- [`draw()`](draw.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

@@ -1,29 +1,29 @@
-# `delay`
+# `delay()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Control  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-delay()
+void delay(int milliseconds)
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Pauses execution for the specified number of milliseconds. When called on the main animation thread (i.e., inside `draw()`), it blocks the entire sketch — no frames are rendered and no events are processed during the pause. Its primary use case is inside methods invoked via `thread()` to simulate or throttle background work.
 
 ## Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+| `milliseconds` | `int` | — | Duration to pause in milliseconds |
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`void`
 
 ---
 
@@ -31,38 +31,53 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
+| All | Uniform — wraps `Thread.sleep()` |
 
 ---
 
 ## Implementation Notes
 
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+- Wraps `Thread.sleep(milliseconds)` and swallows the `InterruptedException`.
+- On the main animation thread, blocks all rendering and input — the window appears frozen.
+- On a background thread (spawned via `thread()`), safely pauses only that thread.
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- **Never call `delay()` inside `draw()`** unless you intentionally want to freeze the sketch — it blocks the animation loop entirely.
+- For timed events within `draw()`, use `millis()` comparisons instead:
+  ```processing
+  if (millis() - lastTime > 1000) { /* do something */ lastTime = millis(); }
+  ```
+- `delay()` is not a substitute for `frameRate()` — use `frameRate()` to control animation speed.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
+// Safe use: inside a threaded method only
+volatile String message = "Waiting...";
+
 void setup() {
-  size(400, 400);
+  size(400, 200);
+  thread("pollServer");
 }
 
 void draw() {
-  // delay() usage here
+  background(20);
+  fill(255);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text(message, width / 2, height / 2);
+}
+
+void pollServer() {
+  while (true) {
+    delay(2000);   // wait 2s between polls
+    message = "Polled at " + hour() + ":" + nf(minute(), 2) + ":" + nf(second(), 2);
+  }
 }
 ```
 
@@ -70,8 +85,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`thread()`](thread.md)
+- [`millis()`](../utilities/time/millis.md)
+- [`frameRate()`](frameRate.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

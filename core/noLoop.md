@@ -1,29 +1,29 @@
-# `noLoop`
+# `noLoop()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Lifecycle  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-noLoop()
+void noLoop()
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Stops `draw()` from being called repeatedly. After `noLoop()` is invoked, the sketch executes `draw()` one final time to completion, then halts the animation loop. The sketch window remains open and visible.
+
+Calling `noLoop()` inside `setup()` is a common pattern for static or event-driven sketches — render once, then wait for user input.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_None._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`void`
 
 ---
 
@@ -31,38 +31,46 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
+| All | Uniform behavior across renderers |
 
 ---
 
 ## Implementation Notes
 
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+- Sets an internal flag; the current `draw()` call (if any) runs to completion before the loop stops.
+- Mouse and keyboard events still fire while the loop is stopped — only `draw()` is paused.
+- `frameCount` stops incrementing after the loop stops.
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Event callbacks (`mousePressed()`, etc.) still fire after `noLoop()` — if they modify sketch state you expect `draw()` to reflect, call `redraw()` manually at the end of the handler.
+- Calling `noLoop()` then never calling `loop()` or `redraw()` can leave the sketch in a permanently frozen state, confusing users.
+- Don't confuse `noLoop()` with stopping the sketch entirely — use `exit()` for that.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
+// Render once, then stop
 void setup() {
-  size(400, 400);
+  size(600, 400);
+  noLoop();
 }
 
 void draw() {
-  // noLoop() usage here
+  background(240);
+  for (int i = 0; i < 200; i++) {
+    stroke(random(255));
+    line(random(width), random(height), random(width), random(height));
+  }
+}
+
+// Re-render on click
+void mousePressed() {
+  redraw();
 }
 ```
 
@@ -70,8 +78,11 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`loop()`](loop.md)
+- [`redraw()`](redraw.md)
+- [`draw()`](draw.md)
+- [`exit()`](exit.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

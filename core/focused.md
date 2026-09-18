@@ -1,29 +1,27 @@
 # `focused`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Environment  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-focused()
+boolean focused
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+A built-in boolean variable that is `true` when the sketch window has keyboard focus, and `false` when the window is in the background or another application has focus. Useful for pausing animation or ignoring input events when the sketch loses focus.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_System variable — not a function._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`boolean` — `true` if the sketch window is focused
 
 ---
 
@@ -31,38 +29,30 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+| All | Reflects OS window focus state; behavior is consistent across renderers |
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- In some environments (fullScreen mode, kiosk installations), `focused` may always be `true` because the window is always in front.
+- On macOS, switching to another Space can set `focused = false` even if the sketch window is visible.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
-void setup() {
-  size(400, 400);
-}
-
 void draw() {
-  // focused() usage here
+  if (focused) {
+    background(30);
+    fill(0, 255, 100);
+    text("Active", 20, 40);
+  } else {
+    background(80);
+    fill(200);
+    text("Paused — click to resume", 20, 40);
+  }
 }
 ```
 
@@ -70,8 +60,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`draw()`](draw.md)
+- [`loop()`](loop.md)
+- [`noLoop()`](noLoop.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

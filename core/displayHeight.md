@@ -1,68 +1,35 @@
 # `displayHeight`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Environment  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-displayHeight()
+int displayHeight
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+The height of the primary display screen in pixels. Counterpart to `displayWidth`. See `displayWidth` for full details and pitfalls.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_System variable — not a function._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
-
----
-
-## Renderer Differences
-
-| Renderer | Behavior |
-|----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
-
----
-
-## Pitfalls
-
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+`int` — primary display height in logical pixels
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
 void setup() {
-  size(400, 400);
-}
-
-void draw() {
-  // displayHeight() usage here
+  size(displayWidth, displayHeight - 80); // leave room for taskbar
 }
 ```
 
@@ -70,8 +37,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`displayWidth`](displayWidth.md)
+- [`height`](height.md)
+- [`fullScreen()`](fullScreen.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

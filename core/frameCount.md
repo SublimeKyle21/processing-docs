@@ -1,29 +1,27 @@
 # `frameCount`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Lifecycle  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-frameCount()
+int frameCount
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+A built-in read-only variable that holds the number of frames rendered since the sketch started. `frameCount` is `0` during `setup()`, becomes `1` after the first `draw()` call completes, and increments by 1 each frame thereafter. It is never reset during a sketch session.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_System variable — not a function; takes no parameters._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`int` — current frame count (≥ 0)
 
 ---
 
@@ -31,38 +29,54 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
+| All | Uniform across renderers |
 
 ---
 
 ## Implementation Notes
 
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+- `frameCount` continues to increment when `redraw()` is called manually, even with `noLoop()` active.
+- It does not increment while the loop is stopped via `noLoop()`.
+- Useful as a time proxy for deterministic animation, but prefer `millis()` for real elapsed-time calculations since frame rate can vary.
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Using `frameCount` for time-based logic ties behavior to frame rate — if the sketch runs slower on another machine, animations will slow down proportionally. Use `millis()` for wall-clock time.
+- `frameCount` is an `int` — it overflows at 2,147,483,647 frames (~414 days at 60 fps). Practically never an issue, but worth noting for long-running installations.
+- Reading `frameCount` inside `setup()` always returns `0`, which can mislead initialization logic that depends on frame order.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
 void setup() {
-  size(400, 400);
+  size(600, 200);
+  textSize(20);
 }
 
 void draw() {
-  // frameCount() usage here
+  background(30);
+  fill(255);
+  text("Frame: " + frameCount, 20, 40);
+  text("Time (millis): " + millis(), 20, 70);
+
+  // Trigger an event every 60 frames
+  if (frameCount % 60 == 0) {
+    println("One second passed (approx)");
+  }
+}
+```
+
+```processing
+// Deterministic animation using frameCount
+void draw() {
+  background(0);
+  float x = width / 2 + cos(frameCount * 0.05) * 150;
+  float y = height / 2 + sin(frameCount * 0.05) * 150;
+  ellipse(x, y, 30, 30);
 }
 ```
 
@@ -70,8 +84,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`frameRate()`](frameRate.md)
+- [`draw()`](draw.md)
+- [`millis()`](../utilities/time/millis.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

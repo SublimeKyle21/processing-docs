@@ -1,29 +1,27 @@
-# `noSmooth`
+# `noSmooth()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Environment  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-noSmooth()
+void noSmooth()
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Disables anti-aliasing. Edges appear jagged/pixelated. Useful for pixel-art aesthetics, intentional retro looks, or squeezing out performance when smooth edges are not needed. Call in `setup()` before the first `draw()`.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_None._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`void`
 
 ---
 
@@ -31,38 +29,35 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+| `JAVA2D` | Disables `RenderingHints` anti-aliasing |
+| `P2D` / `P3D` | Disables MSAA at framebuffer level; must be set in `setup()` |
+| `FX2D` | Anti-aliasing cannot be fully disabled in JavaFX — call may have no effect |
+| `PDF` / `SVG` | No effect — vector output is always crisp |
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Like `smooth()`, calling `noSmooth()` inside `draw()` in P2D/P3D triggers a full renderer reset — call it only in `setup()`.
+- On `FX2D`, `noSmooth()` is effectively a no-op — JavaFX always renders with sub-pixel AA.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
+// Pixel-art style sketch
 void setup() {
   size(400, 400);
+  noSmooth();
+  noStroke();
 }
 
 void draw() {
-  // noSmooth() usage here
+  background(0);
+  fill(0, 255, 100);
+  // Crisp, aliased edges
+  rect(mouseX - 10, mouseY - 10, 20, 20);
 }
 ```
 
@@ -70,8 +65,8 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`smooth()`](smooth.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

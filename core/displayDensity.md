@@ -1,29 +1,30 @@
-# `displayDensity`
+# `displayDensity()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Environment  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-displayDensity()
+int displayDensity()
+int displayDensity(int display)
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Returns the pixel density of the specified display (or the primary display if no argument is given). On standard monitors returns `1`; on HiDPI/Retina displays returns `2`. Pass the result directly to `pixelDensity()` for automatic HiDPI support.
 
 ## Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+| `display` | `int` | primary | Monitor number (1-based) to query |
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`int` — `1` for standard DPI, `2` for HiDPI/Retina
 
 ---
 
@@ -31,38 +32,24 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+| All | System query — renderer-independent |
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- On Windows with fractional scaling (e.g., 125%, 150%), `displayDensity()` may return `1` even though the display is partially scaled — Processing does not expose fractional pixel ratios.
+- Querying a non-existent display index returns `1` without throwing an error.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
 void setup() {
-  size(400, 400);
-}
-
-void draw() {
-  // displayDensity() usage here
+  size(600, 400, P2D);
+  pixelDensity(displayDensity());
+  println("Pixel density: " + displayDensity());
 }
 ```
 
@@ -70,8 +57,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`pixelDensity()`](pixelDensity.md)
+- [`displayWidth`](displayWidth.md)
+- [`displayHeight`](displayHeight.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*

@@ -1,29 +1,27 @@
-# `pop`
+# `pop()`
 
-> **Category:** Core  
-> **Status:** 🔲 Stub — needs content
+> **Category:** Core — Style & Transform Stack  
+> **Status:** ✅ Complete
 
 ---
 
 ## Signature
 
 ```processing
-pop()
+void pop()
 ```
 
 ## Description
 
-_Placeholder: describe what this function does, its purpose, and when to use it._
+Restores the drawing state (transform matrix and style settings) previously saved with `push()`. Every `push()` must have a matching `pop()`. Equivalent to calling `popMatrix()` followed by `popStyle()`.
 
 ## Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| —         | —    | —       | _Add parameters here_ |
+_None._
 
 ## Returns
 
-`void` — _Update if this function returns a value._
+`void`
 
 ---
 
@@ -31,38 +29,31 @@ _Placeholder: describe what this function does, its purpose, and when to use it.
 
 | Renderer | Behavior |
 |----------|----------|
-| `default` (Java2D) | _Standard behavior_ |
-| `P2D` | _Notes_ |
-| `P3D` | _Notes_ |
-| `PDF` | _Notes_ |
-| `SVG` | _Notes_ |
-| `FX2D` | _Notes_ |
-
----
-
-## Implementation Notes
-
-_Placeholder: internal details, quirks, platform-specific behavior, performance characteristics, or threading concerns._
+| All | Uniform across renderers |
 
 ---
 
 ## Pitfalls
 
-- _Placeholder: common mistakes or gotchas._
-- _Placeholder: add more as discovered._
+- Calling `pop()` without a preceding `push()` throws: `Too many calls to popMatrix()` (or similar) — always balance your stack.
+- In loops, ensure every code path that calls `push()` eventually calls `pop()` — early `return` statements inside a push block are a common source of leaks.
 
 ---
 
 ## Examples
 
 ```processing
-// Basic example — replace with real usage
-void setup() {
-  size(400, 400);
-}
-
 void draw() {
-  // pop() usage here
+  background(20);
+  for (int i = 0; i < 5; i++) {
+    push();
+      translate(100 + i * 80, height / 2);
+      rotate(frameCount * 0.01 * (i + 1));
+      fill(map(i, 0, 4, 50, 255), 100, 200);
+      noStroke();
+      rect(-20, -20, 40, 40);
+    pop();
+  }
 }
 ```
 
@@ -70,8 +61,10 @@ void draw() {
 
 ## Related Functions
 
-- _Link to related functions here_
+- [`push()`](push.md)
+- [`popMatrix()`](../transforms/popMatrix.md)
+- [`popStyle()`](popStyle.md)
 
 ---
 
-*Last updated: 2026-08-13 · [Edit this page](https://github.com/kylekrech1/processing-docs)*
+*Last updated: 2026-09-17 · [Edit this page](https://github.com/SublimeKyle21/processing-docs)*
